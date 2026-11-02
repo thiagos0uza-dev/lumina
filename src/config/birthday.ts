@@ -154,7 +154,7 @@ export const birthday = {
     wishButton: 'Faça um pedido ✨',
     wishMessage:
       'Que todos os seus sonhos encontrem um caminho para se tornar realidade. Você merece coisas extraordinárias!',
-    signature: 'Com carinho, do Thiago, que quis criar um universo para você.',
+    signature: 'Criei este universo para você. Com carinho, Thiago.',
     keepWatching: 'Continuar observando o céu',
     showAgain: 'Mostrar a mensagem',
     restart: 'Recomeçar a jornada',
