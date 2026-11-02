@@ -1,0 +1,220 @@
+.eclipse {
+  --size: min(58vw, 38vh, 340px);
+  --moon-offset: 0%;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  flex: none;
+  pointer-events: none;
+  transition:
+    transform 1.6s var(--ease-cinema),
+    opacity 1.6s var(--ease-in-out),
+    filter 1.6s var(--ease-in-out);
+}
+
+.eclipse > div {
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Halo amplo: luz espalhada pela poeira cósmica */
+.eclipse__halo {
+  inset: -95%;
+  background: radial-gradient(
+    circle,
+    rgb(var(--amber-rgb) / 0.32) 0%,
+    rgb(var(--rust-rgb) / 0.18) 22%,
+    rgb(var(--rust-rgb) / 0.06) 40%,
+    transparent 62%
+  );
+  transition: opacity 3.5s var(--ease-in-out), transform 3.5s var(--ease-out);
+}
+
+/* Coroa: raios irregulares (gradiente cônico) mascarados num anel e desfocados */
+.eclipse__corona {
+  inset: -42%;
+  background:
+    conic-gradient(
+      from 8deg,
+      rgb(var(--champagne-rgb) / 0.55) 0deg,
+      transparent 9deg,
+      rgb(var(--amber-rgb) / 0.4) 17deg,
+      transparent 28deg,
+      rgb(var(--champagne-rgb) / 0.7) 41deg,
+      transparent 47deg,
+      rgb(var(--amber-rgb) / 0.35) 62deg,
+      transparent 80deg,
+      rgb(var(--champagne-rgb) / 0.45) 95deg,
+      transparent 104deg,
+      rgb(var(--amber-rgb) / 0.5) 121deg,
+      transparent 128deg,
+      rgb(var(--champagne-rgb) / 0.62) 150deg,
+      transparent 160deg,
+      rgb(var(--amber-rgb) / 0.3) 178deg,
+      transparent 196deg,
+      rgb(var(--champagne-rgb) / 0.6) 214deg,
+      transparent 222deg,
+      rgb(var(--amber-rgb) / 0.45) 240deg,
+      transparent 255deg,
+      rgb(var(--champagne-rgb) / 0.5) 276deg,
+      transparent 284deg,
+      rgb(var(--amber-rgb) / 0.4) 303deg,
+      transparent 318deg,
+      rgb(var(--champagne-rgb) / 0.65) 336deg,
+      transparent 345deg,
+      rgb(var(--champagne-rgb) / 0.55) 360deg
+    ),
+    radial-gradient(circle, rgb(var(--champagne-rgb) / 0.9) 30%, rgb(var(--amber-rgb) / 0.5) 38%, transparent 62%);
+  -webkit-mask: radial-gradient(circle, transparent 27%, #000 32%, rgb(0 0 0 / 0.5) 48%, transparent 70%);
+  mask: radial-gradient(circle, transparent 27%, #000 32%, rgb(0 0 0 / 0.5) 48%, transparent 70%);
+  filter: blur(calc(var(--size) * 0.022));
+  transition: opacity 4s var(--ease-in-out), transform 3s var(--ease-out);
+  animation: corona-spin 140s linear infinite;
+}
+
+.eclipse__corona--inner {
+  inset: -18%;
+  opacity: 0.9;
+  animation: corona-spin 90s linear infinite reverse, corona-breathe 7s var(--ease-in-out) infinite;
+}
+
+/* Disco solar: visível apenas enquanto a lua ainda não o cobriu */
+.eclipse__sun {
+  inset: 15.2%;
+  background: radial-gradient(circle, var(--ivory) 0%, var(--champagne) 60%, rgb(var(--amber-rgb) / 0.9) 100%);
+  box-shadow: 0 0 calc(var(--size) * 0.12) rgb(var(--champagne-rgb) / 0.7);
+  transition: opacity 5.5s var(--ease-in-out);
+}
+
+/* Cromosfera: anel fino e brilhante na borda da lua */
+.eclipse__rim {
+  inset: 14.4%;
+  box-shadow:
+    0 0 0 calc(var(--size) * 0.005) rgb(var(--ivory-rgb) / 0.95),
+    0 0 calc(var(--size) * 0.025) calc(var(--size) * 0.006) rgb(var(--champagne-rgb) / 0.85),
+    0 0 calc(var(--size) * 0.08) rgb(var(--champagne-rgb) / 0.5),
+    0 0 calc(var(--size) * 0.2) rgb(var(--amber-rgb) / 0.4);
+  transition: opacity 3s var(--ease-in-out);
+}
+
+/* Lua: disco de obsidiana com um leve brilho de "luz da Terra" */
+.eclipse__moon {
+  inset: 15%;
+  background: radial-gradient(circle at 42% 38%, #1b1814 0%, var(--obsidian) 55%, #0b0a09 100%);
+  box-shadow: inset 0 0 calc(var(--size) * 0.04) rgb(var(--obsidian-rgb) / 1);
+  transform: translateX(var(--moon-offset));
+  transition: transform 5.5s cubic-bezier(0.33, 0, 0.15, 1);
+}
+
+/* Anel de diamante: o último ponto de sol visível */
+.eclipse__bead {
+  width: 9%;
+  height: 9%;
+  top: 14%;
+  right: 22%;
+  background: radial-gradient(circle, var(--ivory) 0%, rgb(var(--champagne-rgb) / 0.9) 25%, transparent 70%);
+  box-shadow:
+    0 0 calc(var(--size) * 0.12) calc(var(--size) * 0.03) rgb(var(--ivory-rgb) / 0.8),
+    0 0 calc(var(--size) * 0.4) rgb(var(--amber-rgb) / 0.6);
+  opacity: 0;
+  transform: scale(0.3);
+  transition: opacity 0.6s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.eclipse__bead::before,
+.eclipse__bead::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--size) * 1.1);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(var(--ivory-rgb) / 0.8), transparent);
+  transform: translate(-50%, -50%);
+}
+
+.eclipse__bead::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  width: calc(var(--size) * 0.6);
+}
+
+/* ---------- Fases ---------- */
+
+.eclipse[data-phase='hidden'] {
+  --moon-offset: -26%;
+  opacity: 0;
+  transform: scale(0.9);
+}
+.eclipse[data-phase='hidden'] .eclipse__corona,
+.eclipse[data-phase='hidden'] .eclipse__halo {
+  opacity: 0;
+}
+
+.eclipse[data-phase='hidden'] .eclipse__rim {
+  opacity: 0;
+}
+
+.eclipse:not([data-phase='hidden']) .eclipse__sun {
+  opacity: 0;
+}
+
+.eclipse[data-phase='forming'] {
+  --moon-offset: 0%;
+  opacity: 1;
+}
+.eclipse[data-phase='forming'] .eclipse__halo {
+  opacity: 0.75;
+}
+
+.eclipse[data-phase='full'] .eclipse__halo {
+  animation: halo-breathe 8s var(--ease-in-out) infinite;
+}
+
+.eclipse[data-phase='flare'] {
+  transform: scale(1.12);
+  filter: brightness(1.35);
+}
+.eclipse[data-phase='flare'] .eclipse__bead {
+  opacity: 1;
+  transform: scale(1);
+}
+.eclipse[data-phase='flare'] .eclipse__halo {
+  transform: scale(1.35);
+}
+
+.eclipse[data-phase='radiant'] {
+  filter: brightness(1.25) saturate(1.1);
+}
+.eclipse[data-phase='radiant'] .eclipse__corona--outer {
+  transform: scale(1.3);
+}
+.eclipse[data-phase='radiant'] .eclipse__halo {
+  transform: scale(1.4);
+  animation: halo-breathe 6s var(--ease-in-out) infinite;
+}
+
+@keyframes corona-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes corona-breathe {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.05;
+  }
+}
+
+@keyframes halo-breathe {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}

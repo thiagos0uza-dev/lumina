@@ -1,0 +1,242 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-weight: 300;
+  line-height: 1.55;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 1.5px solid var(--champagne);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: rgb(var(--amber-rgb) / 0.35);
+  color: var(--ivory);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Palco dos capítulos ---------- */
+
+.chapter {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: calc(var(--safe-top) + 60px) var(--gutter) calc(var(--safe-bottom) + 20px);
+}
+
+.chapter-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  transition:
+    opacity 0.8s var(--ease-in-out),
+    filter 0.8s var(--ease-in-out),
+    transform 0.9s var(--ease-cinema);
+}
+
+.chapter-stage[data-stage='out'] {
+  opacity: 0;
+  filter: blur(8px);
+  transform: scale(1.06);
+  pointer-events: none;
+}
+
+/* ---------- Tipografia compartilhada ---------- */
+
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.12;
+  margin: 0;
+}
+
+.prose {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, min(4.2vw, 2.6vh), 1.4rem);
+  line-height: 1.6;
+  color: var(--text-soft);
+  margin: 0;
+}
+
+.coords {
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgb(var(--gold-rgb) / 0.55);
+}
+
+/* ---------- Botão principal ---------- */
+
+.lumina-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 52px;
+  padding: 0.9rem 2rem;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--champagne-rgb) / 0.55);
+  background:
+    radial-gradient(120% 160% at 50% 0%, rgb(var(--amber-rgb) / 0.28), transparent 60%),
+    rgb(var(--charcoal-rgb) / 0.55);
+  color: var(--champagne);
+  font-family: var(--font-ui);
+  font-size: 0.86rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  box-shadow:
+    0 0 0 1px rgb(var(--obsidian-rgb) / 0.6) inset,
+    0 10px 40px -12px rgb(var(--amber-rgb) / 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition:
+    transform 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out),
+    color 0.4s;
+}
+
+.lumina-button::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(110deg, transparent 30%, rgb(var(--champagne-rgb) / 0.25) 50%, transparent 70%);
+  background-size: 250% 100%;
+  animation: button-sheen 5.5s var(--ease-in-out) infinite;
+  pointer-events: none;
+}
+
+.lumina-button:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) {
+  .lumina-button:hover {
+    border-color: var(--champagne);
+    color: var(--ivory);
+    box-shadow:
+      0 0 0 1px rgb(var(--obsidian-rgb) / 0.6) inset,
+      0 14px 50px -10px rgb(var(--amber-rgb) / 0.75);
+    transform: translateY(-1px);
+  }
+}
+
+.lumina-button--ghost {
+  background: transparent;
+  border-color: rgb(var(--gold-rgb) / 0.35);
+  color: var(--text-soft);
+  box-shadow: none;
+}
+
+.lumina-button--ghost::after {
+  display: none;
+}
+
+@keyframes button-sheen {
+  0%,
+  60% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
+}
+
+/* ---------- Revelações ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(6px);
+  transition:
+    opacity 1.2s var(--ease-out),
+    transform 1.2s var(--ease-out),
+    filter 1.2s var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.25s !important;
+    transition-delay: 0s !important;
+  }
+  .reveal {
+    transform: none;
+    filter: none;
+  }
+}

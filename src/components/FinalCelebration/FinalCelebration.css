@@ -1,0 +1,164 @@
+.finale {
+  display: flex;
+}
+
+.finale__inner {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 720px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2vh, 24px);
+  text-align: center;
+}
+
+.finale__eclipse .eclipse {
+  --size: min(44vw, 22vh, 240px);
+}
+
+/* Depois do pedido, o eclipse recua um pouco para a mensagem final caber */
+.finale[data-step='4'] .finale__eclipse .eclipse,
+.finale[data-step='5'] .finale__eclipse .eclipse {
+  --size: min(36vw, 14vh, 200px);
+}
+
+.finale[data-step='4'] .finale__message,
+.finale[data-step='5'] .finale__message {
+  display: none;
+}
+
+.finale__eclipse {
+  flex: none;
+  margin: clamp(6px, 3vh, 36px) 0 clamp(4px, 1.5vh, 16px);
+}
+
+/* Proporção da constelação (378 × 100) */
+.finale__name {
+  flex: none;
+  width: min(86vw, 600px, 52vh);
+  aspect-ratio: 378 / 100;
+}
+
+.finale__ui {
+  display: grid;
+  justify-items: center;
+  gap: clamp(10px, 2vh, 22px);
+  transition: opacity 1.2s var(--ease-in-out), filter 1.2s var(--ease-in-out);
+}
+
+.finale__title {
+  font-size: clamp(1.7rem, min(7.4vw, 5.6vh), 3.4rem);
+  color: var(--ivory);
+  text-shadow: 0 0 34px rgb(var(--amber-rgb) / 0.55);
+}
+
+.finale__message {
+  max-width: 34ch;
+}
+
+.finale__wish-slot {
+  display: grid;
+  justify-items: center;
+  min-height: 60px;
+}
+
+.finale__wish {
+  font-size: 0.92rem;
+  padding-inline: 2.4rem;
+  min-height: 56px;
+  animation: wish-glow 3.6s var(--ease-in-out) infinite;
+}
+
+@keyframes wish-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgb(var(--obsidian-rgb) / 0.6) inset,
+      0 10px 40px -12px rgb(var(--amber-rgb) / 0.55);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgb(var(--obsidian-rgb) / 0.6) inset,
+      0 10px 60px -6px rgb(var(--amber-rgb) / 0.85);
+  }
+}
+
+.finale__wished {
+  display: grid;
+  justify-items: center;
+  gap: clamp(8px, 1.6vh, 16px);
+}
+
+.finale__wish-message {
+  font-size: clamp(1.25rem, min(4.8vw, 3.4vh), 1.95rem);
+  font-style: italic;
+  color: var(--champagne);
+  max-width: 26ch;
+  line-height: 1.35;
+}
+
+.finale__signature {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 3.4vw, 1.2rem);
+  color: var(--text-soft);
+  max-width: 32ch;
+}
+
+.finale__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px 18px;
+  margin-top: 8px;
+}
+
+.finale__restart {
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* Modo contemplação: só o universo */
+.finale.is-ui-hidden .finale__ui {
+  opacity: 0;
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.finale.is-ui-hidden {
+  cursor: pointer;
+}
+
+.finale__show {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--safe-bottom) + 24px);
+  transform: translateX(-50%);
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--gold-rgb) / 0.25);
+  background: rgb(var(--obsidian-rgb) / 0.4);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--champagne-rgb) / 0.6);
+  animation: show-in 2s var(--ease-out) 1.5s both;
+}
+
+@keyframes show-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

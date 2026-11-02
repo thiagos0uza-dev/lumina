@@ -1,0 +1,44 @@
+/* Paleta oficial "The Golden Eclipse" — espelha src/config/birthday.ts (palette). */
+:root {
+  --obsidian: #100f0d;
+  --charcoal: #27211b;
+  --rust: #a94f2b;
+  --amber: #d88a3d;
+  --gold: #c5a36b;
+  --champagne: #e8d4ac;
+  --ivory: #f1e7d2;
+  --copper: #a87568;
+
+  /* Canais RGB para transparências */
+  --obsidian-rgb: 16 15 13;
+  --charcoal-rgb: 39 33 27;
+  --rust-rgb: 169 79 43;
+  --amber-rgb: 216 138 61;
+  --gold-rgb: 197 163 107;
+  --champagne-rgb: 232 212 172;
+  --ivory-rgb: 241 231 210;
+  --copper-rgb: 168 117 104;
+
+  /* Papéis */
+  --bg: var(--obsidian);
+  --text: var(--ivory);
+  --text-soft: rgb(var(--ivory-rgb) / 0.72);
+  --text-faint: rgb(var(--champagne-rgb) / 0.5);
+  --line: rgb(var(--gold-rgb) / 0.32);
+  --line-strong: rgb(var(--gold-rgb) / 0.7);
+  --ink: #3a2f24; /* tinta da carta: carvão quente mais claro, legível sobre marfim */
+
+  /* Tipografia */
+  --font-display: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
+  --font-ui: 'Jost', 'Futura', 'Century Gothic', system-ui, sans-serif;
+
+  /* Movimento */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-cinema: cubic-bezier(0.7, 0, 0.2, 1);
+
+  /* Espaçamento seguro (notch) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --gutter: clamp(16px, 4vw, 40px);
+}

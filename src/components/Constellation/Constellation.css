@@ -1,0 +1,544 @@
+.constellation {
+  display: flex;
+}
+
+.constellation__inner {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 920px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2.2vh, 24px);
+  text-align: center;
+  transition: opacity 0.9s var(--ease-in-out), filter 0.9s var(--ease-in-out);
+}
+
+.constellation__header {
+  flex: none;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+.constellation__title {
+  font-size: clamp(1.5rem, min(5.6vw, 4.6vh), 2.6rem);
+  color: var(--ivory);
+}
+
+.constellation__progress {
+  margin: 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.constellation__map {
+  position: relative;
+  width: 100%;
+  /* Ocupa a proporção natural do mapa, mas encolhe para caber na altura da tela */
+  flex: 0 1 auto;
+  aspect-ratio: 446 / 262;
+  min-height: 0;
+}
+
+/* Nome em destaque, revelado com a surpresa (dentro do SVG) */
+.star-map__name {
+  fill: var(--champagne);
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0.9em;
+  opacity: 0;
+  transition: opacity 2s var(--ease-out) 0.6s, letter-spacing 2.6s var(--ease-out) 0.6s;
+  filter: drop-shadow(0 0 4px rgb(var(--amber-rgb) / 0.9));
+}
+
+.star-map.is-complete .star-map__name {
+  opacity: 1;
+  letter-spacing: 0.6em;
+}
+
+/* ---------- Mapa SVG ---------- */
+
+.star-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.star-map__camera {
+  transform-origin: 0 0;
+  transform-box: view-box;
+  transition: transform 1.25s var(--ease-cinema);
+}
+
+.star-map__chart {
+  fill: none;
+  stroke: rgb(var(--gold-rgb) / 0.13);
+  stroke-width: 0.5;
+}
+
+.star-map__chart rect {
+  stroke: rgb(var(--gold-rgb) / 0.28);
+}
+
+.star-map__ecliptic {
+  stroke: rgb(var(--amber-rgb) / 0.3);
+  stroke-dasharray: 2 4;
+}
+
+.star-map__chart text {
+  fill: rgb(var(--gold-rgb) / 0.45);
+  stroke: none;
+  font-family: var(--font-ui);
+  font-size: 6.5px;
+  letter-spacing: 0.12em;
+}
+
+.star-map__compass {
+  stroke: rgb(var(--gold-rgb) / 0.3);
+}
+
+.star-map__compass-star {
+  fill: rgb(var(--gold-rgb) / 0.5);
+  stroke: none;
+}
+
+.star-map__field {
+  fill: var(--champagne);
+}
+
+.star-map__edge {
+  stroke: rgb(var(--gold-rgb) / 0.32);
+  stroke-width: 0.7;
+  stroke-linecap: round;
+  transition: stroke 1.6s var(--ease-out), stroke-width 1.6s var(--ease-out);
+}
+
+.star-map__edge.is-lit {
+  stroke: rgb(var(--gold-rgb) / 0.85);
+  stroke-width: 0.9;
+}
+
+.star-map__node {
+  fill: rgb(var(--gold-rgb) / 0.7);
+  transition: fill 1.6s var(--ease-out);
+}
+
+.star-map__node.is-lit {
+  fill: var(--champagne);
+}
+
+.star-map.is-complete .star-map__edge {
+  stroke: var(--champagne);
+  stroke-width: 1;
+  animation: edge-glow 3.2s var(--ease-in-out) infinite;
+}
+
+.star-map.is-complete .star-map__node {
+  animation: node-glow 3.2s var(--ease-in-out) infinite;
+}
+
+.star-map__title {
+  fill: var(--champagne);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.star-map__subtitle {
+  fill: rgb(var(--gold-rgb) / 0.55);
+  font-family: var(--font-ui);
+  font-size: 6px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+/* ---------- Estrelas com mensagem ---------- */
+
+.message-star {
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.message-star__hit {
+  fill: transparent;
+}
+
+.message-star__halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: halo-pulse 3.4s var(--ease-in-out) infinite;
+}
+
+.message-star:nth-of-type(2n) .message-star__halo {
+  animation-delay: -1.7s;
+}
+
+.message-star__ring {
+  fill: none;
+  stroke: rgb(var(--champagne-rgb) / 0.35);
+  stroke-width: 0.6;
+  stroke-dasharray: 1.5 2.2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ring-turn 24s linear infinite;
+  transition: stroke 0.8s, stroke-dasharray 0.8s;
+}
+
+.message-star__core {
+  fill: var(--champagne);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.6s var(--ease-out), fill 0.6s;
+}
+
+.message-star__label {
+  fill: rgb(var(--gold-rgb) / 0.8);
+  font-family: var(--font-ui);
+  font-size: 7.5px;
+  letter-spacing: 0.14em;
+  transition: fill 0.8s;
+}
+
+.message-star:focus-visible .message-star__ring {
+  stroke: var(--ivory);
+  stroke-width: 1;
+  stroke-dasharray: none;
+}
+
+@media (hover: hover) {
+  .message-star:hover .message-star__core {
+    transform: scale(1.3);
+  }
+}
+
+.message-star:active .message-star__core,
+.message-star.is-active .message-star__core {
+  transform: scale(1.6);
+  fill: var(--ivory);
+}
+
+/* Descoberta: anel cheio, estrela marfim, rótulo iluminado */
+.message-star.is-found .message-star__ring {
+  stroke: var(--champagne);
+  stroke-dasharray: none;
+  stroke-width: 0.8;
+}
+
+.message-star.is-found .message-star__core {
+  fill: var(--ivory);
+}
+
+.message-star.is-found .message-star__label {
+  fill: var(--champagne);
+}
+
+.star-map.is-complete .message-star__halo {
+  animation: halo-pulse 3.2s var(--ease-in-out) infinite;
+  animation-delay: 0s;
+}
+
+@keyframes halo-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes ring-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes edge-glow {
+  0%,
+  100% {
+    stroke-opacity: 0.75;
+  }
+  50% {
+    stroke-opacity: 1;
+  }
+}
+
+@keyframes node-glow {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ---------- Pílulas de progresso ---------- */
+
+.constellation__pills {
+  flex: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 640px;
+}
+
+.star-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--gold-rgb) / 0.25);
+  background: rgb(var(--charcoal-rgb) / 0.45);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  transition: border-color 0.6s, color 0.6s, background 0.6s;
+}
+
+.star-pill__title {
+  display: none;
+}
+
+@media (min-width: 760px) and (min-height: 700px) {
+  .star-pill__title {
+    display: inline;
+  }
+}
+
+.star-pill__number {
+  font-weight: 400;
+  color: var(--gold);
+}
+
+.star-pill.is-found {
+  border-color: rgb(var(--champagne-rgb) / 0.6);
+  background: rgb(var(--amber-rgb) / 0.12);
+  color: var(--ivory);
+}
+
+.star-pill__mark {
+  color: var(--champagne);
+}
+
+/* ---------- Surpresa ---------- */
+
+.constellation__surprise {
+  flex: none;
+  display: grid;
+  justify-items: center;
+  gap: clamp(10px, 2vh, 18px);
+  animation: surprise-in 1.6s var(--ease-out) both;
+}
+
+@keyframes surprise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(6px);
+  }
+}
+
+.constellation__surprise-text {
+  max-width: 30ch;
+  color: var(--champagne);
+  font-style: italic;
+}
+
+/* Durante a leitura, o mapa fica nítido e o restante recua. */
+.constellation__inner > :not(.reveal) {
+  transition: opacity 0.9s var(--ease-in-out), filter 0.9s var(--ease-in-out);
+}
+
+.constellation__inner.is-dimmed > :not(.constellation__map) {
+  opacity: 0.2;
+  filter: blur(1.5px);
+}
+
+/* ---------- Painel da mensagem ---------- */
+
+.star-panel-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  /* Painel na base da tela: a estrela aproximada fica visível acima dele */
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--gutter);
+  padding-bottom: calc(var(--safe-bottom) + var(--gutter));
+  pointer-events: none;
+}
+
+.star-panel-layer.is-open {
+  pointer-events: auto;
+}
+
+.star-panel-layer__backdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgb(var(--obsidian-rgb) / 0.75) 100%);
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-in-out);
+  cursor: default;
+}
+
+.star-panel-layer.is-open .star-panel-layer__backdrop {
+  opacity: 1;
+}
+
+.star-panel {
+  position: relative;
+  width: min(100%, 460px);
+  padding: clamp(26px, 5vw, 40px) clamp(22px, 5vw, 40px) clamp(22px, 4vw, 32px);
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+  border: 1px solid rgb(var(--gold-rgb) / 0.4);
+  border-radius: 4px;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgb(var(--amber-rgb) / 0.16), transparent 60%),
+    linear-gradient(180deg, rgb(var(--charcoal-rgb) / 0.92), rgb(var(--obsidian-rgb) / 0.94));
+  box-shadow:
+    0 30px 80px -20px rgb(0 0 0 / 0.8),
+    0 0 0 4px rgb(var(--obsidian-rgb) / 0.5),
+    0 0 0 5px rgb(var(--gold-rgb) / 0.14);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+  transition: opacity 0.6s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.star-panel-layer.is-open .star-panel {
+  opacity: 1;
+  transform: none;
+  /* animação (e não transição) para reanimar a cada estrela do passeio */
+  animation: panel-in 0.8s var(--ease-out) 0.35s both;
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+}
+
+.star-panel__corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.8;
+}
+
+.star-panel__corner--tl {
+  top: 8px;
+  left: 8px;
+  border-width: 1px 0 0 1px;
+}
+
+.star-panel__corner--br {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 1px 1px 0;
+}
+
+.star-panel__title {
+  font-size: clamp(1.8rem, 6vw, 2.3rem);
+  color: var(--champagne);
+}
+
+.star-panel__sparkle {
+  color: var(--amber);
+}
+
+.star-panel__text {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 4.4vw, 1.42rem);
+  line-height: 1.55;
+  color: var(--ivory);
+  max-width: 30ch;
+}
+
+.star-panel__next {
+  min-height: 50px;
+  width: min(100%, 300px);
+}
+
+.star-panel__back {
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.constellation__tour {
+  flex: none;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.constellation__hint {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+}
+
+@media (min-width: 900px) {
+  .star-panel-layer {
+    padding-bottom: calc(var(--safe-bottom) + 5vh);
+  }
+}
+
+/* Telas baixas: painel mais compacto para a estrela continuar visível acima dele */
+@media (max-height: 720px) {
+  .star-panel {
+    gap: 6px;
+    padding: 18px 20px 12px;
+  }
+  .star-panel__sparkle {
+    display: none;
+  }
+  .star-panel__title {
+    font-size: 1.6rem;
+  }
+  .star-panel__text {
+    font-size: 1.08rem;
+    line-height: 1.45;
+    margin-bottom: 6px;
+  }
+  .star-panel__next {
+    min-height: 46px;
+  }
+  .star-panel__back {
+    min-height: 34px;
+  }
+}

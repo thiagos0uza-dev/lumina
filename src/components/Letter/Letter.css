@@ -1,0 +1,506 @@
+.letter {
+  display: flex;
+  --paper: #f1e7d2;
+  --paper-edge: #e8d4ac;
+  --ink-color: var(--charcoal);
+}
+
+/* Sala marfim: a identidade Celestial Champagne em primeiro plano */
+.letter-room {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(70% 55% at 50% 38%, rgb(var(--ivory-rgb) / 1) 0%, rgb(var(--champagne-rgb) / 0.96) 55%, rgb(var(--copper-rgb) / 0.8) 100%),
+    var(--champagne);
+  animation: room-in 1.8s var(--ease-in-out) both;
+}
+
+.letter-room::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 50%, rgb(var(--rust-rgb) / 0.35) 100%);
+}
+
+.letter-room__chart {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgb(var(--gold-rgb) / 0.35);
+  stroke-width: 0.4;
+  opacity: 0.7;
+  animation: chart-turn 240s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+.letter__inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* A seção cria o próprio contexto de empilhamento para a sala ficar atrás do conteúdo, mas acima do céu. */
+.letter {
+  isolation: isolate;
+}
+
+@keyframes room-in {
+  from {
+    opacity: 0;
+    filter: brightness(1.4);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@keyframes chart-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.letter__inner {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 620px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2.6vh, 28px);
+  text-align: center;
+}
+
+.letter__inner.is-open {
+  justify-content: flex-start;
+}
+
+.letter__header {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+.letter__eyebrow {
+  color: var(--rust);
+}
+
+.letter__title {
+  font-size: clamp(1.6rem, min(6.4vw, 5vh), 2.8rem);
+  font-style: italic;
+  color: var(--charcoal);
+}
+
+/* ---------- Envelope ---------- */
+
+.envelope {
+  --w: min(84vw, 380px);
+  position: relative;
+  width: var(--w);
+  aspect-ratio: 1.55;
+  margin: 4vh 0 2vh;
+  perspective: 900px;
+  filter: drop-shadow(0 22px 30px rgb(var(--rust-rgb) / 0.3));
+  animation: envelope-float 6s var(--ease-in-out) infinite;
+}
+
+.envelope > div {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+}
+
+.envelope__back {
+  background: linear-gradient(160deg, #e2c99c, #d4b585);
+}
+
+.envelope__paper-peek {
+  inset: 8% 6% 10% !important;
+  background: var(--paper);
+  border-radius: 3px !important;
+  transform: translateY(0);
+  transition: transform 1s var(--ease-out) 0.5s;
+}
+
+.envelope__front {
+  background:
+    linear-gradient(to top right, #e9d3a9 49.6%, transparent 50%) left / 50.5% 100% no-repeat,
+    linear-gradient(to top left, #e6cea2 49.6%, transparent 50%) right / 50.5% 100% no-repeat,
+    linear-gradient(to top, #ecd8b1 0%, #ecd8b1 52%, transparent 52.2%);
+  clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+}
+
+.envelope__flap {
+  background: linear-gradient(180deg, #f0dfbd, #e0c595);
+  clip-path: polygon(0 0, 100% 0, 50% 60%);
+  transform-origin: 50% 0;
+  transition: transform 1s var(--ease-in-out);
+  z-index: 2;
+  border-top: 1px solid rgb(var(--gold-rgb) / 0.6);
+}
+
+/* Selo de cera em ferrugem com o eclipse do LUMINA */
+.envelope__seal {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  z-index: 3;
+  width: 74px;
+  height: 74px;
+  margin: -37px 0 0 -37px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 38% 32%, #c86a40, var(--rust) 55%, #7d3519 100%);
+  box-shadow:
+    0 0 0 4px rgb(var(--rust-rgb) / 0.35),
+    0 6px 16px rgb(var(--rust-rgb) / 0.5),
+    inset 0 -3px 6px rgb(0 0 0 / 0.25);
+  transition: transform 0.6s var(--ease-out), opacity 0.6s;
+  animation: seal-pulse 2.8s var(--ease-in-out) infinite;
+}
+
+.envelope__seal .lumina-mark {
+  color: var(--champagne);
+}
+
+.envelope__seal .lumina-mark circle[fill='var(--obsidian)'] {
+  fill: var(--rust);
+}
+
+.envelope[data-stage='opening'] .envelope__seal {
+  transform: scale(1.4);
+  opacity: 0;
+  animation: none;
+}
+
+.envelope[data-stage='opening'] .envelope__flap {
+  transform: rotateX(180deg);
+  z-index: 0;
+  transition-delay: 0.2s;
+}
+
+.envelope[data-stage='opening'] .envelope__paper-peek {
+  transform: translateY(-38%);
+}
+
+.envelope[data-stage='opening'] {
+  animation: envelope-away 1.7s var(--ease-in-out) forwards;
+}
+
+.letter__open {
+  border-color: rgb(var(--rust-rgb) / 0.55);
+  background: rgb(var(--ivory-rgb) / 0.6);
+  color: var(--rust);
+  box-shadow: 0 10px 30px -14px rgb(var(--rust-rgb) / 0.6);
+  transition: opacity 0.5s;
+}
+
+.letter__open.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes envelope-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes envelope-away {
+  0%,
+  55% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+}
+
+@keyframes seal-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 4px rgb(var(--rust-rgb) / 0.35),
+      0 6px 16px rgb(var(--rust-rgb) / 0.5),
+      inset 0 -3px 6px rgb(0 0 0 / 0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 0 10px rgb(var(--amber-rgb) / 0.18),
+      0 6px 22px rgb(var(--rust-rgb) / 0.6),
+      inset 0 -3px 6px rgb(0 0 0 / 0.25);
+  }
+}
+
+/* ---------- Papel ---------- */
+
+.paper {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 780px;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(26px, 4.5vh, 52px) clamp(26px, 7vw, 60px) clamp(18px, 3vh, 30px);
+  text-align: left;
+  color: var(--ink-color);
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.66  0 0 0 0 0.46  0 0 0 0 0.26  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>"),
+    radial-gradient(130% 100% at 50% 0%, #f7efdf 0%, var(--paper) 50%, #ead9b8 100%);
+  border-radius: 3px;
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.6) inset,
+    0 0 0 1px rgb(var(--gold-rgb) / 0.35),
+    0 0 0 7px rgb(var(--paper-rgb, 241 231 210) / 0),
+    0 30px 60px -24px rgb(var(--rust-rgb) / 0.45),
+    0 12px 24px -12px rgb(var(--charcoal-rgb) / 0.3);
+  transform-origin: 50% 0;
+  animation: paper-unfold 1.3s var(--ease-out) both;
+}
+
+/* Moldura interna fina em ouro, como uma carta astronômica */
+.paper::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgb(var(--gold-rgb) / 0.45);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.paper__corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, var(--gold) 1.4px, transparent 1.8px) center / 100% 100% no-repeat;
+}
+
+.paper__corner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: solid rgb(var(--gold-rgb) / 0.7);
+}
+
+.paper__corner--tl {
+  top: 20px;
+  left: 20px;
+}
+.paper__corner--tl::before {
+  border-width: 1px 0 0 1px;
+}
+.paper__corner--tr {
+  top: 20px;
+  right: 20px;
+}
+.paper__corner--tr::before {
+  border-width: 1px 1px 0 0;
+}
+.paper__corner--bl {
+  bottom: 20px;
+  left: 20px;
+}
+.paper__corner--bl::before {
+  border-width: 0 0 1px 1px;
+}
+.paper__corner--br {
+  bottom: 20px;
+  right: 20px;
+}
+.paper__corner--br::before {
+  border-width: 0 1px 1px 0;
+}
+
+.paper__mark {
+  display: flex;
+  justify-content: center;
+  margin-bottom: clamp(6px, 1.6vh, 16px);
+  flex: none;
+}
+
+.paper__body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.paper__measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.paper__page {
+  animation: page-turn 0.9s var(--ease-out) both;
+}
+
+@keyframes page-turn {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+    filter: blur(3px);
+  }
+}
+
+.paper__block {
+  padding-bottom: 0.85em;
+  font-size: clamp(1.08rem, min(3.9vw, 2.5vh), 1.36rem);
+}
+
+.paper__pager {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding-top: 6px;
+  border-top: 1px solid rgb(var(--gold-rgb) / 0.3);
+}
+
+.paper__turn {
+  width: 40px;
+  height: 40px;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--rust);
+  transition: opacity 0.4s;
+}
+
+.paper__turn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.paper__folio {
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--copper);
+}
+
+.paper__mark .lumina-mark {
+  color: var(--amber);
+}
+
+.paper__mark .lumina-mark circle[fill='var(--obsidian)'] {
+  fill: var(--paper);
+}
+
+.paper__greeting,
+.paper__p {
+  font-family: var(--font-display);
+  font-size: 1em;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.paper__greeting {
+  font-size: 1.3em;
+  font-style: italic;
+  color: var(--rust);
+}
+
+.paper__sign {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+  margin-top: 0.4em;
+  text-align: right;
+}
+
+.paper__sign .celestial-divider {
+  color: var(--gold);
+  justify-self: center;
+}
+
+.paper__signature {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.3em;
+  color: var(--rust);
+}
+
+.paper__coords {
+  margin: 0;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--copper-rgb) / 0.9);
+}
+
+/* Revelação "à tinta": desfoque que assenta, como se a escrita surgisse no papel */
+.ink {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(6px);
+  transition:
+    opacity 1.6s var(--ease-out),
+    filter 1.6s var(--ease-out),
+    transform 1.6s var(--ease-out);
+}
+
+.ink.is-visible {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+@keyframes paper-unfold {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) rotateX(-28deg) translateY(30px) scaleY(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.letter__actions {
+  flex: none;
+  min-height: 52px;
+  display: grid;
+  place-items: center;
+}
+
+.letter__skip {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--copper);
+  border-bottom: 1px solid rgb(var(--copper-rgb) / 0.4);
+}
+
+.letter__next {
+  border-color: rgb(var(--rust-rgb) / 0.55);
+  background: var(--charcoal);
+  color: var(--champagne);
+}
+
+.letter .lumina-button:focus-visible,
+.letter button:focus-visible {
+  outline-color: var(--rust);
+}

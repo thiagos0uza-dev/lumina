@@ -1,0 +1,12 @@
+.lumina-mark {
+  color: var(--champagne);
+  flex: none;
+}
+
+.celestial-divider {
+  display: block;
+  width: min(240px, 70%);
+  height: 16px;
+  color: var(--gold);
+  opacity: 0.75;
+}

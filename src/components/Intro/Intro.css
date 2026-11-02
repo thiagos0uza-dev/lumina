@@ -1,0 +1,128 @@
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: calc(var(--safe-top) + 32px);
+  padding-bottom: calc(var(--safe-bottom) + 32px);
+  cursor: default;
+}
+
+.intro__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(16px, 5vh, 56px);
+  width: 100%;
+  max-width: 720px;
+  margin: auto;
+  transition:
+    transform 1.6s var(--ease-cinema),
+    opacity 1.2s var(--ease-in-out) 0.2s,
+    filter 1.4s var(--ease-in-out);
+}
+
+/* Aproximação da câmera: o eclipse cresce até preencher a tela. */
+.intro[data-beat='leaving'] .intro__stage {
+  transform: scale(3.4) translateY(6%);
+  opacity: 0;
+  filter: blur(4px);
+}
+
+.intro__eclipse {
+  display: grid;
+  place-items: center;
+  margin-top: clamp(0px, 3vh, 48px);
+}
+
+.intro__eclipse .eclipse {
+  --size: min(58vw, 34vh, 340px);
+}
+
+.intro__text {
+  display: grid;
+  justify-items: center;
+  gap: clamp(14px, 3vh, 32px);
+  text-align: center;
+}
+
+.intro__line {
+  max-width: 30ch;
+  font-style: italic;
+  color: var(--champagne);
+  text-shadow: 0 0 24px rgb(var(--obsidian-rgb) / 0.9);
+}
+
+.intro__title {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+}
+
+.intro__wordmark {
+  font-size: clamp(2.6rem, min(13vw, 9vh), 6.4rem);
+  font-weight: 300;
+  letter-spacing: 0.32em;
+  margin-right: -0.32em; /* compensa o espaçamento da última letra */
+  color: var(--ivory);
+  text-shadow:
+    0 0 30px rgb(var(--amber-rgb) / 0.45),
+    0 0 2px rgb(var(--champagne-rgb) / 0.6);
+}
+
+.intro__wordmark span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.25em);
+  filter: blur(10px);
+  transition:
+    opacity 1.4s var(--ease-out),
+    transform 1.4s var(--ease-out),
+    filter 1.4s var(--ease-out);
+}
+
+.intro__title.is-visible .intro__wordmark span {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.intro__subtitle {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: clamp(0.8rem, 2.6vw, 0.95rem);
+  letter-spacing: 0.14em;
+  color: var(--text-soft);
+}
+
+.intro__cta {
+  padding-top: 4px;
+}
+
+.intro__hint {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--safe-bottom) + 22px);
+  margin: 0;
+  text-align: center;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgb(var(--gold-rgb) / 0.4);
+  opacity: 0;
+  transition: opacity 1.5s var(--ease-in-out);
+}
+
+.intro__hint.is-visible {
+  opacity: 1;
+  transition-delay: 1.2s;
+}
+
+@media (max-height: 640px) {
+  .intro__eclipse {
+    margin-top: 8px;
+  }
+  .intro__eclipse .eclipse {
+    --size: min(48vw, 32vh, 260px);
+  }
+}
