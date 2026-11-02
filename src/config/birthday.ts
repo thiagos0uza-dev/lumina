@@ -143,7 +143,7 @@ export const birthday = {
       'Você merece um universo inteiro de coisas boas.',
       'Feliz aniversário! ❤️',
     ],
-    signature: 'Com carinho.',
+    signature: 'Com carinho, Thiago.',
     nextButton: 'Seguir para a celebração ✦',
   },
 
@@ -154,7 +154,7 @@ export const birthday = {
     wishButton: 'Faça um pedido ✨',
     wishMessage:
       'Que todos os seus sonhos encontrem um caminho para se tornar realidade. Você merece coisas extraordinárias!',
-    signature: 'Com carinho, de alguém que quis criar um universo para você.',
+    signature: 'Com carinho, do Thiago, que quis criar um universo para você.',
     keepWatching: 'Continuar observando o céu',
     showAgain: 'Mostrar a mensagem',
     restart: 'Recomeçar a jornada',
